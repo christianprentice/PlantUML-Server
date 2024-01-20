@@ -1,9 +1,10 @@
-require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min/vs' }});
+require.config({ paths: { 'vs': './node_modules/monaco-editor/min/vs' }});
 require(['vs/editor/editor.main'], function() {
     window.editor = monaco.editor.create(document.getElementById('editor-container'), {
-        value: '',
-       language: 'markdown'
+        value: '@startuml\nparticipant Bob\nactor Alice\nBob -> Alice : hello\nAlice -> Bob : Is it ok?\n@enduml',
+       language: 'plaintext'
     });
+    monaco.editor.setTheme('vs-dark');
 });
 
 async function fetchParser(){
