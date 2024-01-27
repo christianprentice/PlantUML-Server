@@ -7,14 +7,18 @@ require(['vs/editor/editor.main'], function() {
     monaco.editor.setTheme('vs-dark');
 });
 
-async function fetchParser(){
+async function fetchPlantUML(format, operation){
     try{
-        const response = await fetch("/parser.php", {
+        const response = await fetch("/envokePlantUML.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(window.editor.getValue().replace("\n", "\r\n")),
+            body: JSON.stringify({
+                textBody: window.editor.getValue(),
+                outputFormat: format,
+                operationName: operation,
+            }),
         });
         if (!response.ok) {
             throw new Error(`${response.status} ${response.statusText}`);
@@ -35,30 +39,19 @@ function escapeHTML(unsafe){
  }
 
 function renderContent(){
-    fetchParser()
+    fetchPlantUML('txt', 'render')
     .then((data) => {
         const containerElement = document.getElementById("converted-container");
-        const checkedRadioName = document.querySelector('input[name="flexRadio"]:checked').getAttribute("id");
-        if(checkedRadioName == "HTMLRadio"){
-            const preDOM = document.createElement("pre");
-            const codeDOM = document.createElement("code");
-            containerElement.innerHTML = "";
-            codeDOM.innerHTML = escapeHTML(data);
-            containerElement.appendChild(preDOM);
-            preDOM.appendChild(codeDOM);
-        } else {
-            containerElement.innerHTML = data;
-        }
+        containerElement.innerHTML = data;
     });
 };
 
 function downloadContent(){
     const containerElement = document.getElementById("converted-container");
-    const checkedRadioName = document.querySelector('input[name="flexRadio"]:checked').getAttribute("id");
+    const fileFormat = document.querySelector('input[name="flexRadio"]:checked').getAttribute("id");
     let outputContent;
-    let downloadFormat = ".md";
 
-    if(checkedRadioName == "HTMLRadio"){
+    if(fileFormat == "HTMLRadio"){
         outputContent = containerElement.children[0].children[0].innerHTML;
         downloadFormat = ".html";
     } else {

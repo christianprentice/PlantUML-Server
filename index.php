@@ -24,23 +24,23 @@ require __DIR__ . '/vendor/autoload.php';
         <div class="d-flex justify-content-between align-items-center px-4">
 
             <div class="form-check p-3">
-              <input class="form-check-input" type="radio" name="flexRadio" id="pngRadio">
-              <label class="form-check-label" for="pngRadio">
+                <input class="form-check-input" type="radio" name="flexRadio" id="txt" checked>
+                <label class="form-check-label" for="txt">
+                    txt
+                </label>
+            </div>
+
+            <div class="form-check p-3">
+              <input class="form-check-input" type="radio" name="flexRadio" id="png">
+              <label class="form-check-label" for="png">
                 png
               </label>
             </div>
 
             <div class="form-check p-3">
-              <input class="form-check-input" type="radio" name="flexRadio" id="svgRadio" checked>
-              <label class="form-check-label" for="svgRadio">
+              <input class="form-check-input" type="radio" name="flexRadio" id="svg">
+              <label class="form-check-label" for="svg">
                 svg
-              </label>
-            </div>
-
-            <div class="form-check p-3">
-              <input class="form-check-input" type="radio" name="flexRadio" id="txtRadio">
-              <label class="form-check-label" for="txtRadio">
-                txt
               </label>
             </div>
 
