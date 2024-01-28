@@ -39,7 +39,9 @@ function escapeHTML(unsafe){
  }
 
 function renderContent(){
-    fetchPlantUML('txt', 'render')
+    let fileFormat = document.querySelector('input[name="flexRadio"]:checked').getAttribute("id");
+    if(fileFormat == 'txt') fileFormat = 'atxt';
+    fetchPlantUML(fileFormat, 'render')
     .then((data) => {
         const containerElement = document.getElementById("converted-container");
         containerElement.innerHTML = data;
@@ -47,25 +49,22 @@ function renderContent(){
 };
 
 function downloadContent(){
-    const containerElement = document.getElementById("converted-container");
-    const fileFormat = document.querySelector('input[name="flexRadio"]:checked').getAttribute("id");
-    let outputContent;
+    let fileFormat = document.querySelector('input[name="flexRadio"]:checked').getAttribute("id");
+    if(fileFormat == 'txt') fileFormat = 'atxt';
+    console.log(`file format is: ${fileFormat}`);
 
-    if(fileFormat == "HTMLRadio"){
-        outputContent = containerElement.children[0].children[0].innerHTML;
-        downloadFormat = ".html";
-    } else {
-        outputContent = window.editor.getValue();
-    }
-    const blob = new Blob([outputContent], { type: "octet-stream"});
-    const href = URL.createObjectURL(blob);
-    const a = Object.assign(document.createElement("a"), {
-        href,
-        style: "display:none",
-        download: "download" + downloadFormat,
+    fetchPlantUML(fileFormat, 'download')
+    .then((data) => {
+        const blob = new Blob([data], { type: "octet-stream"});
+        const href = URL.createObjectURL(blob);
+        const a = Object.assign(document.createElement("a"), {
+            href,
+            style: "display:none",
+            download: "diagram." + fileFormat,
+        });
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(href);
+        a.remove();
     });
-    document.body.appendChild(a);
-    a.click();
-    URL.revokeObjectURL(href);
-    a.remove();
 };

@@ -8,11 +8,22 @@
             if(!$ret) throw new Exception('File could not be created due to error.');
 
             $outputFormat = $hashmap["outputFormat"];
-            if($outputFormat != 'txt') $outputFormat = 't{$outputFormat}';
+            if($outputFormat != 'txt') {
+                $command = "java -jar jarscript/plantuml.jar IO/diagram.txt -t{$outputFormat}";
+            }else{
+                $command = "java -jar jarscript/plantuml.jar IO/diagram.txt -{$outputFormat}";
+            }
 
-            $command = "java -jar jarscript/plantuml.jar IO/diagram.txt -{$outputFormat}";
             exec($command);
-            # if($hashmap["operation"] == 'render'){}
+
+            switch($hashmap["operationName"]){
+                case 'render':
+                    render("IO/diagram.{$outputFormat}");
+                    break;
+               case 'download':
+                    download("IO/diagram.{$outputFormat}");
+                    break;
+            }
         }else{
             throw new Exception('Unsupported request from the user.');
         }
@@ -21,11 +32,16 @@
     }
 
     function render($path){
-        #1 FIX ME add ASCII encoding
-        file_get_contents($path);
+        #1 FIX ME add ASCII encoding and formmatting
+        #3 FIX ME add PNG encoding support
+        readfile($path);
+        #flush();
+        #ob_clean();
+        #unlink($path);
     }
 
     function download($path){
+        #2 FIX ME add PNG download support
         if (file_exists($path)) {
             header('Content-Description: File Transfer');
             header('Content-Type: application/octet-stream');
@@ -37,7 +53,7 @@
             readfile($path);
             #flush();
             #ob_clean();
-            unlink($path);
+            #unlink($path);
         }
     }
 ?>
