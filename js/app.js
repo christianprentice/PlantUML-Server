@@ -43,8 +43,10 @@ function renderContent(){
     if(fileFormat == 'txt') fileFormat = 'atxt';
     fetchPlantUML(fileFormat, 'render')
     .then((data) => {
+        const wrapper = document.createElement("pre");
         const containerElement = document.getElementById("converted-container");
-        containerElement.innerHTML = data;
+        wrapper.innerHTML = data;
+        containerElement.appendChild(wrapper);
     });
 };
 

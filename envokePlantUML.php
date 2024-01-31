@@ -32,7 +32,6 @@
     }
 
     function render($path){
-        #1 FIX ME add ASCII encoding and formmatting
         #3 FIX ME add PNG encoding support
         readfile($path);
         #flush();
