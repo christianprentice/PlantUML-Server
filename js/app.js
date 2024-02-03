@@ -43,21 +43,21 @@ function renderContent(){
     if(fileFormat == 'txt') fileFormat = 'atxt';
     fetchPlantUML(fileFormat, 'render')
     .then((data) => {
-        const wrapper = document.createElement("pre");
+        console.log(data);
         const containerElement = document.getElementById("converted-container");
-        wrapper.innerHTML = data;
-        containerElement.appendChild(wrapper);
+        if(containerElement.innerHTML != data){
+            containerElement.innerHTML = data;
+        }
     });
 };
 
 function downloadContent(){
     let fileFormat = document.querySelector('input[name="flexRadio"]:checked').getAttribute("id");
     if(fileFormat == 'txt') fileFormat = 'atxt';
-    console.log(`file format is: ${fileFormat}`);
 
     fetchPlantUML(fileFormat, 'download')
     .then((data) => {
-        const blob = new Blob([data], { type: "octet-stream"});
+        let blob = new Blob([data], { type: "octet-stream"});
         const href = URL.createObjectURL(blob);
         const a = Object.assign(document.createElement("a"), {
             href,
