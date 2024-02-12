@@ -30,12 +30,14 @@ require __DIR__ . '/vendor/autoload.php';
                 </label>
             </div>
 
+            <!--
             <div class="form-check p-3">
               <input class="form-check-input" type="radio" name="flexRadio" id="png">
               <label class="form-check-label" for="png">
                 png
               </label>
             </div>
+            -->
 
             <div class="form-check p-3">
               <input class="form-check-input" type="radio" name="flexRadio" id="svg">
