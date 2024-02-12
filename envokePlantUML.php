@@ -1,24 +1,36 @@
 <?php
+
 try{
+    handlePOST();
+}catch(Exception $e){
+    echo "ERROR: {$e->getMessage()}";
+}
+
+function handlePOST(){
     if($_SERVER["REQUEST_METHOD"] === "POST") {
         $jsonData = file_get_contents("php://input");
         $hashmap = json_decode($jsonData, true);
         $textBody = $hashmap["textBody"];
+
         $ret = file_put_contents('IO/diagram.txt', $textBody);
         if(!$ret) throw new Exception('File could not be created due to error.');
 
         $outputFormat = $hashmap["outputFormat"];
-        if($outputFormat != 'txt') {
-            $command = "java -jar jarscript/plantuml.jar IO/diagram.txt -t{$outputFormat}";
+        $operationName = $hashmap["operationName"];
+
+        if($operationName == 'render') {
+            $command = "java -jar jarscript/plantuml.jar IO/diagram.txt -tsvg";
+        }elseif($outputFormat == 'txt'){
+            $command = "java -jar jarscript/plantuml.jar IO/diagram.txt -txt";
         }else{
-            $command = "java -jar jarscript/plantuml.jar IO/diagram.txt -{$outputFormat}";
+            $command = "java -jar jarscript/plantuml.jar IO/diagram.txt -t{$outputFormat}";
         }
 
         exec($command);
 
-        switch($hashmap["operationName"]){
+        switch($operationName){
             case 'render':
-                render("IO/diagram.{$outputFormat}");
+                render("IO/diagram.svg");
                 break;
             case 'download':
                 download("IO/diagram.{$outputFormat}");
@@ -27,8 +39,6 @@ try{
     }else{
         throw new Exception('Unsupported request from the user.');
     }
-}catch(Exception $e){
-    echo "ERROR: {$e->getMessage()}";
 }
 
 function render($path){
@@ -56,3 +66,4 @@ function download($path){
     }
 }
 ?>
+
