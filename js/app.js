@@ -55,18 +55,12 @@ function downloadContent(){
     let fileFormat = document.querySelector('input[name="flexRadio"]:checked').getAttribute("id");
     if(fileFormat == 'txt') fileFormat = 'atxt';
 
-    fetchPlantUML(fileFormat, 'download')
-    .then((data) => {
-        let blob = new Blob([data], { type: "octet-stream"});
-        const href = URL.createObjectURL(blob);
-        const a = Object.assign(document.createElement("a"), {
-            href,
-            style: "display:none",
-            download: "diagram." + fileFormat,
-        });
-        document.body.appendChild(a);
-        a.click();
-        URL.revokeObjectURL(href);
-        a.remove();
+    fetchPlantUML(fileFormat, 'download').then((data) => {
+        const linkElement = document.createElement('a');
+        linkElement.href = JSON.parse(data).imageSrc;
+        document.body.appendChild(linkElement);
+        linkElement.download = `download.${fileFormat}`;
+        linkElement.click();
+        document.body.removeChild(linkElement);
     });
 };
