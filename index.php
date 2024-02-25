@@ -58,7 +58,7 @@ require __DIR__ . '/vendor/autoload.php';
     <div class="d-flex justify-content-center align-content-center m-3">
         <div id="editor-container" class="m-4 w-50" style="height:80vh;border:1px solid grey"></div>
             <div class="m-4 w-50 overflow-auto" style="height:80vh;border:1px solid grey">
-                <img id="converted-container"></img>
+                <pre id="converted-container"></pre>
             </div>
     </div>
 
