@@ -44,9 +44,10 @@ function renderContent(){
     fetchPlantUML(fileFormat, 'render')
     .then((data) => {
         console.log(data);
-        const containerElement = document.getElementById("converted-container");
-        if(containerElement.innerHTML != data){
-            containerElement.innerHTML = data;
+        const parsedData = JSON.parse(data).renderContent
+        const imageElement = document.getElementById("converted-container");
+        if(imageElement.getAttribute("src") != parsedData){
+            imageElement.setAttribute("src", parsedData);
         }
     });
 };

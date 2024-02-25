@@ -44,7 +44,13 @@ function handlePOST()
 
 function render($path)
 {
-    readfile($path);
+    #readfile($path);
+    $data = file_get_contents($path);
+    $mimeType = mime_content_type($path);
+    $base64Data = base64_encode($data);
+    $dataURL = "data:$mimeType;base64,$base64Data";
+    echo json_encode(['renderContent' => $dataURL]);
+
 }
 
 function download($path)
