@@ -2,7 +2,7 @@ require.config({ paths: { 'vs': './node_modules/monaco-editor/min/vs' }});
 require(['vs/editor/editor.main'], function() {
     window.editor = monaco.editor.create(document.getElementById('editor-container'), {
         value: '@startuml\nparticipant Bob\nactor Alice\nBob -> Alice : hello\nAlice -> Bob : Is it ok?\n@enduml',
-       language: 'plaintext'
+        language: 'plaintext'
     });
     monaco.editor.setTheme('vs-dark');
 });
