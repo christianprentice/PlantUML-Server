@@ -2,7 +2,7 @@ require.config({ paths: { 'vs': './node_modules/monaco-editor/min/vs' }});
 require(['vs/editor/editor.main'], function() {
     window.editor = monaco.editor.create(document.getElementById('editor-container'), {
         value: '@startuml\nparticipant Bob\nactor Alice\nBob -> Alice : hello\nAlice -> Bob : Is it ok?\n@enduml',
-        language: 'plaintext'
+       language: 'plaintext'
     });
     monaco.editor.setTheme('vs-dark');
 });
@@ -14,6 +14,7 @@ async function fetchPlantUML(format, operation){
             headers: {
                 "Content-Type": "application/json",
             },
+            //Backend will handle the format validation
             body: JSON.stringify({
                 textBody: window.editor.getValue(),
                 outputFormat: format,
@@ -40,12 +41,12 @@ function escapeHTML(unsafe){
 
 function renderContent(){
     let fileFormat = document.querySelector('input[name="flexRadio"]:checked').getAttribute("id");
-    if(fileFormat == 'txt') fileFormat = 'atxt';
+
     fetchPlantUML(fileFormat, 'render')
     .then((data) => {
-        console.log(data);
         const parsedData = JSON.parse(data).renderContent
         const imageElement = document.getElementById("converted-container");
+        //if not set, set
         if(imageElement.getAttribute("src") != parsedData){
             imageElement.setAttribute("src", parsedData);
         }
@@ -54,9 +55,9 @@ function renderContent(){
 
 function downloadContent(){
     let fileFormat = document.querySelector('input[name="flexRadio"]:checked').getAttribute("id");
-    if(fileFormat == 'txt') fileFormat = 'atxt';
 
-    fetchPlantUML(fileFormat, 'download').then((data) => {
+    fetchPlantUML(fileFormat, 'download')
+    .then((data) => {
         const linkElement = document.createElement('a');
         linkElement.href = JSON.parse(data).imageSrc;
         document.body.appendChild(linkElement);
