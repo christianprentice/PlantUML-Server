@@ -1,16 +1,22 @@
-lockfileVersion: '6.0'
+lockfileVersion: '9.0'
 
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  monaco-editor:
-    specifier: 0.45.0
-    version: 0.45.0
+importers:
+
+  .:
+    dependencies:
+      monaco-editor:
+        specifier: 0.45.0
+        version: 0.45.0
 
 packages:
 
-  /monaco-editor@0.45.0:
+  monaco-editor@0.45.0:
     resolution: {integrity: sha512-mjv1G1ZzfEE3k9HZN0dQ2olMdwIfaeAAjFiwNprLfYNRSz7ctv9XuCT7gPtBGrMUeV1/iZzYKj17Khu1hxoHOA==}
-    dev: false
+
+snapshots:
+
+  monaco-editor@0.45.0: {}
